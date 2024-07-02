@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const spreadsheetId = '1FzUB5-6KkG9MoGlI56j5x8DYl4xTs7G8WXJ4MDJzCjM'; // スプレッドシートIDを入力
-  const range = 'Sheet1!A2:C'; // スプレッドシートの範囲
-
-  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY; // 環境変数からAPIキーを取得
+  const apiKey = 'AIzaSyAZvCcKJ0oM4pLq9n86-uIsDSADj0ZmHt0'; // APIキーを直接記入
+  const spreadsheetId = '1FzUB5-6KkG9MoGlI56j5x8DYl4xTs7G8WXJ4MDJzCjM';
+  const range = 'Sheet1!A2:C';
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
 
   const searchInput = document.getElementById('search-input');

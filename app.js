@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const spreadsheetId = '1FzUB5-6KkG9MoGlI56j5x8DYl4xTs7G8WXJ4MDJzCjM'; // スプレッドシートIDを入力
-  const range = 'Sheet1!A2:F'; // スプレッドシートの範囲
-
-  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY; // 環境変数からAPIキーを取得
+  const apiKey = 'AIzaSyAZvCcKJ0oM4pLq9n86-uIsDSADj0ZmHt0'; // APIキーを直接記入
+  const spreadsheetId = '1FzUB5-6KkG9MoGlI56j5x8DYl4xTs7G8WXJ4MDJzCjM';
+  const range = 'Sheet1!A2:F';
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
 
   const statusElement = document.getElementById('status');
@@ -47,9 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const randomWord = quizWords[currentQuizIndex];
     quizWord.textContent = randomWord[0];
 
-    // 出題回数を更新
-    updateSpreadsheet(randomWord[0], 4, parseInt(randomWord[3]) + 1);
-
     const options = shuffleArray([...words].map(word => word[1]).filter(opt => opt !== randomWord[1]));
     const correctAnswerIndex = Math.floor(Math.random() * 4);
     options.splice(correctAnswerIndex, 0, randomWord[1]);
@@ -63,9 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
           optionButton.classList.add('correct');
           quizResult.textContent = 'Correct!';
           quizResult.style.color = 'green';
-
-          // 正解回数を更新
-          updateSpreadsheet(randomWord[0], 5, parseInt(randomWord[4]) + 1);
         } else {
           optionButton.classList.add('incorrect');
           quizResult.textContent = `Incorrect. The correct answer is "${randomWord[1]}".`;
@@ -95,26 +88,5 @@ document.addEventListener('DOMContentLoaded', () => {
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
-  }
-
-  function updateSpreadsheet(word, columnIndex, value) {
-    const rowIndex = words.findIndex(w => w[0] === word) + 2; // データは2行目から始まるため、インデックスを調整
-    const range = `Sheet1!${String.fromCharCode(65 + columnIndex)}${rowIndex}`;
-    const body = {
-      values: [[value]]
-    };
-
-    $.ajax({
-      url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED&key=${apiKey}`,
-      type: 'PUT',
-      contentType: 'application/json',
-      data: JSON.stringify(body),
-      success: (response) => {
-        console.log('Update successful:', response);
-      },
-      error: (response) => {
-        console.error('Update failed:', response);
-      }
-    });
   }
 });
