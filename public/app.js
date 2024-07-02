@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   const spreadsheetId = '1FzUB5-6KkG9MoGlI56j5x8DYl4xTs7G8WXJ4MDJzCjM'; // スプレッドシートIDを入力
-  const apiKey = 'AIzaSyAZvCcKJ0oM4pLq9n86-uIsDSADj0ZmHt0'; // Google APIキーを入力
   const range = 'Sheet1!A2:F'; // スプレッドシートの範囲
 
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
@@ -13,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const startQuizButton = document.getElementById('start-quiz');
   const nextQuestionButton = document.getElementById('next-question');
   const quizCountInput = document.getElementById('quiz-count');
+
+  require('dotenv').config();
+
+  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   let words = [];
   let currentQuizIndex = 0;
