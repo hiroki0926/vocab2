@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const spreadsheetId = '1FzUB5-6KkG9MoGlI56j5x8DYl4xTs7G8WXJ4MDJzCjM'; // スプレッドシートIDを入力
   const range = 'Sheet1!A2:F'; // スプレッドシートの範囲
 
+  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY; // 環境変数からAPIキーを取得
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
 
   const statusElement = document.getElementById('status');
@@ -11,11 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const quizResult = document.getElementById('quiz-result');
   const startQuizButton = document.getElementById('start-quiz');
   const nextQuestionButton = document.getElementById('next-question');
-  const quizCountInput = document.getElementById('quiz-count');
-
-  require('dotenv').config();
-
-  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
   let words = [];
   let currentQuizIndex = 0;
@@ -30,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   startQuizButton.addEventListener('click', () => {
-    const quizCount = parseInt(quizCountInput.value, 10);
+    const quizCount = parseInt(document.getElementById('quiz-count').value, 10);
     quizWords = getRandomWords(quizCount);
     currentQuizIndex = 0;
     quizCard.classList.remove('hidden');
